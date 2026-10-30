@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Guest links</title>
+<style>
+  :root{--ivory:#FBF3E4;--maroon:#5A1020;--red:#B3202A;--gold:#E3A72F;--gold-dark:#8A5A0E;--ink:#4a2a22}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ivory);color:var(--ink);font:17px/1.5 Georgia,'Times New Roman',serif;padding:20px 16px 60px}
+  main{max-width:640px;margin:0 auto}
+  h1{color:var(--maroon);font-size:28px;margin:0 0 4px}
+  p.sub{margin:0 0 20px;color:var(--gold-dark)}
+  label{display:block;font-weight:700;color:var(--maroon);margin:16px 0 6px;font-size:15px}
+  input,textarea,select{width:100%;font:inherit;padding:11px 13px;border:1.5px solid rgba(90,16,32,.35);border-radius:10px;background:#fffdf7;color:var(--ink)}
+  textarea{min-height:130px;resize:vertical}
+  .row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 200px}
+  button{font:600 16px/1 Georgia,serif;border:0;border-radius:999px;padding:12px 18px;cursor:pointer;background:var(--maroon);color:#fbe9cf;min-height:44px}
+  button.ghost{background:transparent;color:var(--maroon);border:1.5px solid var(--maroon)}
+  button.ok{background:#2e7d4f;color:#fff}
+  .list{margin-top:22px;display:grid;gap:10px}
+  .item{background:#fffdf7;border:1px solid rgba(90,16,32,.2);border-radius:12px;padding:12px 14px}
+  .item b{color:var(--maroon)}
+  .item code{display:block;margin:6px 0 10px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-break:break-all;color:#555}
+  .item .row{gap:8px}.item .row>*{flex:0 0 auto}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .count{color:var(--gold-dark);font-size:15px}
+  .warn{background:#fff3cd;border:1px solid #e3c46d;border-radius:10px;padding:10px 12px;font-size:15px;margin-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Guest links</h1>
+  <p class="sub">Type your guests' names, one per line. Each gets their own link that greets them by name.</p>
+
+  <label for="base">Your invitation address</label>
+  <input id="base" type="url" inputmode="url" placeholder="https://your-site.netlify.app/">
+  <div id="baseWarn" class="warn" hidden>This still looks like a placeholder. Paste the real address of your published site above.</div>
+
+  <label for="names">Guest names (one per line)</label>
+  <textarea id="names" placeholder="Rina Di&#10;Kaka and Kakima&#10;Rahul"></textarea>
+
+  <div class="row">
+    <div><label for="lng">Language the link opens in</label>
+      <select id="lng"><option value="">Guest's own choice (English first)</option><option value="en">English</option><option value="bn">বাংলা (Bengali)</option></select></div>
+  </div>
+
+  <label for="msg">WhatsApp message ( {name} and {link} are filled in for you )</label>
+  <textarea id="msg" style="min-height:110px"></textarea>
+
+  <div class="bar">
+    <button id="copyAll" type="button">Copy all names and links</button>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="list" id="list" aria-live="polite"></div>
+</main>
+
+<script src="config.js"></script>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const W = window.WEDDING || {};
+  const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+  const bride = (W.names && W.names.bride.en) || 'the bride', groom = (W.names && W.names.groom.en) || 'the groom';
+  const defMsg = 'Dear {name},\n\nWe would be so happy to have you at ' + bride + ' & ' + groom + "'s wedding. Your personal invitation is here:\n{link}\n\nWith love";
+
+  let base = store.get('gl_base') || W.siteUrl || '';
+  if (!base || /YOUR-SITE/i.test(base)) base = /^https?:/.test(location.origin) ? location.origin + location.pathname.replace(/guests\.html$/, '') : '';
+  $('#base').value = base;
+  $('#names').value = store.get('gl_names') || '';
+  $('#msg').value = store.get('gl_msg') || defMsg;
+  $('#lng').value = store.get('gl_lng') || '';
+
+  const makeLink = (name) => {
+    let b = $('#base').value.trim(); if (!b) return '';
+    if (!/\/$|\.html$/.test(b)) b += '/';
+    const p = new URLSearchParams(); p.set('guest', name); if ($('#lng').value) p.set('lang', $('#lng').value);
+    return b + '?' + p.toString().replace(/\+/g, '%20');
+  };
+  const names = () => $('#names').value.split(/\n/).map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const flash = (btn, txt) => { const o = btn.textContent; btn.textContent = txt; btn.classList.add('ok'); setTimeout(() => { btn.textContent = o; btn.classList.remove('ok'); }, 1400); };
+  const copy = async (text, btn) => {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (e2) {} t.remove(); }
+    flash(btn, 'Copied');
+  };
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function draw(){
+    store.set('gl_base', $('#base').value.trim()); store.set('gl_names', $('#names').value); store.set('gl_msg', $('#msg').value); store.set('gl_lng', $('#lng').value);
+    $('#baseWarn').hidden = !!$('#base').value.trim() && !/YOUR-SITE/i.test($('#base').value);
+    const list = names(); $('#count').textContent = list.length ? list.length + (list.length === 1 ? ' link' : ' links') : '';
+    $('#list').innerHTML = list.map((n, i) => { const l = makeLink(n);
+      return `<div class="item"><b>${esc(n)}</b><code>${esc(l)}</code><div class="row">
+        <button type="button" data-a="link" data-i="${i}" class="ghost">Copy link</button>
+        <button type="button" data-a="wa" data-i="${i}">Send on WhatsApp</button></div></div>`; }).join('');
+  }
+  const fillMsg = (n, l) => $('#msg').value.replace(/\{name\}/g, n).replace(/\{link\}/g, l);
+  $('#list').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const n = names()[+b.dataset.i], l = makeLink(n);
+    if (b.dataset.a === 'link') copy(l, b);
+    else window.open('https://wa.me/?text=' + encodeURIComponent(fillMsg(n, l)), '_blank', 'noopener');
+  });
+  $('#copyAll').addEventListener('click', e => copy(names().map(n => n + ' - ' + makeLink(n)).join('\n'), e.target));
+  ['#base', '#names', '#msg', '#lng'].forEach(s => $(s).addEventListener('input', draw));
+  draw();
+})();
+</script>
+</body>
+</html>
