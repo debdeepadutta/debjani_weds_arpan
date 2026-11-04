@@ -5,7 +5,7 @@
 ------------------------------------------------------------------- */
 window.WEDDING = {
   // The final public address of the site (used by guests.html to build links). Fill it in after you publish.
-  siteUrl: "https://YOUR-SITE.netlify.app/",
+  siteUrl: "https://debjani-weds-arpan.site/",
 
 
   // Families section (doors): the line shown under each door once it is opened
@@ -32,39 +32,59 @@ window.WEDDING = {
 
   // The five wedding rituals shown on the "Wedding Rituals" page (picture, name, one line). Add `date:` (ISO) to show a date and time, or `when:` for a short text.
   rituals: [
-    { image: "assets/rituals/gaye-holud.webp", date: "2026-11-26T09:30:00+05:30",
+    {
+      image: "assets/rituals/gaye-holud.webp", date: "2026-11-26T09:30:00+05:30",
       name: { en: "Gaye Holud", bn: "গায়ে হলুদ" },
-      note: { en: "Turmeric is applied to the bride and groom with blessings and songs.", bn: "আশীর্বাদ আর গানের মধ্যে বর-কনের গায়ে হলুদ মাখানো হয়।" } },
-    { image: "assets/rituals/saat-paak.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
+      note: { en: "Turmeric is applied to the bride and groom with blessings and songs.", bn: "আশীর্বাদ আর গানের মধ্যে বর-কনের গায়ে হলুদ মাখানো হয়।" }
+    },
+    {
+      image: "assets/rituals/saat-paak.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
       name: { en: "Saat Paak", bn: "সাত পাক" },
-      note: { en: "The bride circles the groom seven times, a bond for a lifetime.", bn: "কনে বরের চারপাশে সাতবার ঘোরে, সারা জীবনের বাঁধন।" } },
-    { image: "assets/rituals/shubho-drishti.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
+      note: { en: "The bride circles the groom seven times, a bond for a lifetime.", bn: "কনে বরের চারপাশে সাতবার ঘোরে, সারা জীবনের বাঁধন।" }
+    },
+    {
+      image: "assets/rituals/shubho-drishti.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
       name: { en: "Shubho Drishti", bn: "শুভ দৃষ্টি" },
-      note: { en: "The couple’s first look at each other, from behind two betel leaves.", bn: "দুটি পানপাতার আড়াল থেকে বর-কনের প্রথম চোখে চোখ।" } },
-    { image: "assets/rituals/laja-homa.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
+      note: { en: "The couple’s first look at each other, from behind two betel leaves.", bn: "দুটি পানপাতার আড়াল থেকে বর-কনের প্রথম চোখে চোখ।" }
+    },
+    {
+      image: "assets/rituals/laja-homa.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
       name: { en: "Laja Homa", bn: "লাজ হোম" },
-      note: { en: "Puffed rice is offered to the sacred fire, praying for a home of plenty.", bn: "পবিত্র অগ্নিতে খই আহুতি দিয়ে সমৃদ্ধ সংসারের প্রার্থনা।" } },
-    { image: "assets/rituals/sindur-daan.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
+      note: { en: "Puffed rice is offered to the sacred fire, praying for a home of plenty.", bn: "পবিত্র অগ্নিতে খই আহুতি দিয়ে সমৃদ্ধ সংসারের প্রার্থনা।" }
+    },
+    {
+      image: "assets/rituals/sindur-daan.webp", when: { en: "On the wedding evening", bn: "বিয়ের সন্ধ্যায়" },
       name: { en: "Sindur Daan", bn: "সিঁদুর দান" },
-      note: { en: "The groom fills the bride’s parting with sindoor, the sacred red.", bn: "বর কনের সিঁথিতে পবিত্র লাল সিঁদুর পরিয়ে দেয়।" } }
+      note: { en: "The groom fills the bride’s parting with sindoor, the sacred red.", bn: "বর কনের সিঁথিতে পবিত্র লাল সিঁদুর পরিয়ে দেয়।" }
+    }
   ],
 
   events: [
-    { date: "2026-11-26T12:00:00+05:30",
+    {
+      date: "2026-11-26T12:00:00+05:30",
       title: { en: "Aiburobhat", bn: "আইবুড়োভাত" },
-      note: { en: "Traditional pre-wedding feast for the bride", bn: "কনের জন্য বিবাহ-পূর্ব ঐতিহ্যবাহী ভোজ" } },
-    { date: "2026-11-26T09:30:00+05:30",
+      note: { en: "Traditional pre-wedding feast for the bride", bn: "কনের জন্য বিবাহ-পূর্ব ঐতিহ্যবাহী ভোজ" }
+    },
+    {
+      date: "2026-11-26T09:30:00+05:30",
       title: { en: "Gaye Holud", bn: "গায়ে হলুদ" },
-      note: { en: "Turmeric ceremony with music and colour", bn: "গান ও রঙে হলুদের অনুষ্ঠান" } },
-    { date: "2026-11-26T19:30:00+05:30",
+      note: { en: "Turmeric ceremony with music and colour", bn: "গান ও রঙে হলুদের অনুষ্ঠান" }
+    },
+    {
+      date: "2026-11-26T19:30:00+05:30",
       title: { en: "Biye / Wedding", bn: "বিয়ে" },
-      note: { en: "The sacred wedding ceremony", bn: "পবিত্র বিবাহ অনুষ্ঠান" } },
-    { date: "2026-11-26T13:00:00+05:30",
+      note: { en: "The sacred wedding ceremony", bn: "পবিত্র বিবাহ অনুষ্ঠান" }
+    },
+    {
+      date: "2026-11-26T13:00:00+05:30",
       title: { en: "Bou Bhat", bn: "বউভাত" },
-      note: { en: "Reception lunch hosted by the groom's family", bn: "বরপক্ষের পক্ষ থেকে বউভাতের আয়োজন" } },
-    { date: "2026-11-26T19:30:00+05:30",
+      note: { en: "Reception lunch hosted by the groom's family", bn: "বরপক্ষের পক্ষ থেকে বউভাতের আয়োজন" }
+    },
+    {
+      date: "2026-11-26T19:30:00+05:30",
       title: { en: "Reception", bn: "রিসেপশন" },
-      note: { en: "Grand evening reception with dinner", bn: "নৈশভোজসহ সান্ধ্য সংবর্ধনা" } }
+      note: { en: "Grand evening reception with dinner", bn: "নৈশভোজসহ সান্ধ্য সংবর্ধনা" }
+    }
   ],
 
   venue: {
